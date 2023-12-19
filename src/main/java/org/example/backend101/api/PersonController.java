@@ -1,14 +1,14 @@
 package org.example.backend101.api;
 
-import jakarta.validation.Valid;
 import org.example.backend101.model.Person;
 import org.example.backend101.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 @RequestMapping("api/v1/person")
 @RestController
@@ -20,14 +20,14 @@ public class PersonController {
         this.personService = personService;
     }
 
-    @PostMapping
-    public void addPerson(@Valid @NonNull @RequestBody Person person) {
-        personService.addPerson(person);
+    @GetMapping(path = "/all")
+    public @ResponseBody List<Person> getAllPeople() {
+        return personService.getAllPeople();
     }
 
-    @GetMapping
-    public List<Person> getAllPeople() {
-        return personService.getAllPeople();
+    /*@PostMapping
+    public void addPerson(@Valid @NonNull @RequestBody Person person) {
+        personService.addPerson(person);
     }
 
     @GetMapping(path = "{id}")
@@ -44,5 +44,5 @@ public class PersonController {
     @PutMapping(path = "{id}")
     public void updatePerson(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody Person personToUpdate) {
         personService.updatePerson(id, personToUpdate);
-    }
+    }*/
 }
