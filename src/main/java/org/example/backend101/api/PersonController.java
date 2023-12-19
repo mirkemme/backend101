@@ -3,12 +3,11 @@ package org.example.backend101.api;
 import org.example.backend101.model.Person;
 import org.example.backend101.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequestMapping("api/v1/person")
 @RestController
@@ -25,15 +24,22 @@ public class PersonController {
         return personService.getAllPeople();
     }
 
+    @GetMapping(path = "{id}")
+    public @ResponseBody Person getPersonById(@PathVariable("id") UUID id) {
+        return personService.getPersonById(id);
+    }
+    @GetMapping("/name")
+    public @ResponseBody Optional<Person> getPersonByName(@RequestParam String name) {
+        return personService.getPersonByName(name);
+    }
+    @GetMapping("/search/nameandsurname")
+    public @ResponseBody Optional<Person> getPersonByNameAndSurname(@RequestParam String name, @RequestParam String surname) {
+        return personService.getPersonByNameAndSurname(name, surname);
+    }
+
     /*@PostMapping
     public void addPerson(@Valid @NonNull @RequestBody Person person) {
         personService.addPerson(person);
-    }
-
-    @GetMapping(path = "{id}")
-    public Person getPersonById(@PathVariable("id") UUID id){
-        return personService.getPersonById(id)
-                .orElse(null);
     }
 
     @DeleteMapping(path = "{id}")
