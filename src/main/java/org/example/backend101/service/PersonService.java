@@ -1,34 +1,32 @@
 package org.example.backend101.service;
 
-import org.example.backend101.dao.PersonDao;
+import org.example.backend101.dao.PersonDataAccessRepository;
 import org.example.backend101.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PersonService {
-    private final PersonDao personDao;
+    private final PersonDataAccessRepository personDataAccessRepository;
 
     @Autowired
-    public PersonService(@Qualifier("postgres") PersonDao personDao) {
-        this.personDao = personDao;
+    public PersonService(@Qualifier("mysql") PersonDataAccessRepository personDataAccessRepository) {
+        this.personDataAccessRepository = personDataAccessRepository;
+    }
+
+    public List<Person> getAllPeople() {
+        return personDataAccessRepository.findAll();
+    }
+
+    /*public Optional<Person> getPersonById(UUID id) {
+        return personDao.selectPersonById(id);
     }
 
     public int addPerson(Person person) {
         return personDao.addPerson(person);
-    }
-
-    public List<Person> getAllPeople() {
-        return personDao.selectAllPeople();
-    }
-
-    public Optional<Person> getPersonById(UUID id) {
-        return personDao.selectPersonById(id);
     }
 
     public int  deletePerson(UUID id) {
@@ -37,5 +35,5 @@ public class PersonService {
 
     public int updatePerson(UUID id, Person newPerson) {
         return personDao.updatePersonById(id, newPerson);
-    }
+    }*/
 }
