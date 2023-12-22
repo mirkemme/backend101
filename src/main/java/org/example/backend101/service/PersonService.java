@@ -34,6 +34,10 @@ public class PersonService {
         return personDataAccessRepository.findByNameAndSurname(name, surname);
     }
 
+    public String getProfessionByNameAndSurname(String name, String surname) {
+        return personDataAccessRepository.findByNameAndSurname(name, surname).get().getProfession().getProfession();
+    }
+
     /*public int addPerson(Person person) {
         return personDao.addPerson(person);
     }

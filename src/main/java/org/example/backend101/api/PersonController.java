@@ -28,13 +28,19 @@ public class PersonController {
     public @ResponseBody Person getPersonById(@PathVariable("id") UUID id) {
         return personService.getPersonById(id);
     }
-    @GetMapping("/name")
+    @GetMapping("/search/name")
     public @ResponseBody Optional<Person> getPersonByName(@RequestParam String name) {
         return personService.getPersonByName(name);
     }
-    @GetMapping("/search/nameandsurname")
+
+    @GetMapping("/search/name-and-surname")
     public @ResponseBody Optional<Person> getPersonByNameAndSurname(@RequestParam String name, @RequestParam String surname) {
         return personService.getPersonByNameAndSurname(name, surname);
+    }
+
+    @GetMapping("/search/profession-by-name-and-surname")
+    public String getProfessionByNameAndSurname(@RequestParam String name, @RequestParam String surname) {
+        return personService.getProfessionByNameAndSurname(name, surname);
     }
 
     /*@PostMapping
