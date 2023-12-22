@@ -13,33 +13,28 @@ public class Person {
     @GeneratedValue
     @Column (name = "id", columnDefinition = "BINARY(16)")
     private final UUID id;
-
     @Column (name = "name")
     @NotBlank
     private final String name;
     @Column (name = "surname")
     @NotBlank
     private final String surname;
-
-    @Column (name = "profession_id")
-    @NotBlank
-    private final Integer profession_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profession_id")
+    private Profession profession;
 
     public Person(@JsonProperty("id") UUID id,
                   @JsonProperty("name") String name,
-                  @JsonProperty("surname") String surname,
-                  @JsonProperty("profession") Integer profession_id) {
+                  @JsonProperty("surname") String surname) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.profession_id = profession_id;
     }
 
     public Person() {
         this.id = null;
         this.name = null;
         this.surname = null;
-        this.profession_id = null;
     }
 
     public UUID getId() {
@@ -54,7 +49,7 @@ public class Person {
         return surname;
     }
 
-    public Integer getProfession_id() {
-        return profession_id;
+    public Profession getProfession() {
+        return profession;
     }
 }
