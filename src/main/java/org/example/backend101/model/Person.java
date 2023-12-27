@@ -1,5 +1,6 @@
 package org.example.backend101.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table (name = "clients")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Person {
     @Id
     @GeneratedValue
@@ -51,5 +53,9 @@ public class Person {
 
     public Profession getProfession() {
         return profession;
+    }
+
+    public void setProfession(Profession profession) {
+        this.profession = profession;
     }
 }

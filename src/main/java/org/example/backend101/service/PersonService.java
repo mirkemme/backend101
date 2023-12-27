@@ -1,7 +1,9 @@
 package org.example.backend101.service;
 
 import org.example.backend101.dao.PersonDataAccessRepository;
+import org.example.backend101.dao.ProfessionDataAccessRepository;
 import org.example.backend101.model.Person;
+import org.example.backend101.model.Profession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -13,10 +15,15 @@ import java.util.UUID;
 @Service
 public class PersonService {
     private final PersonDataAccessRepository personDataAccessRepository;
+    private final ProfessionDataAccessRepository professionDataAccessRepository;
 
     @Autowired
-    public PersonService(@Qualifier("mysql") PersonDataAccessRepository personDataAccessRepository) {
+    public PersonService(@Qualifier(value = "mysql-person")
+                         PersonDataAccessRepository personDataAccessRepository,
+                         @Qualifier(value = "mysql-profession")
+                         ProfessionDataAccessRepository professionDataAccessRepository) {
         this.personDataAccessRepository = personDataAccessRepository;
+        this.professionDataAccessRepository = professionDataAccessRepository;
     }
 
     public List<Person> getAllPeople() {
@@ -38,11 +45,18 @@ public class PersonService {
         return personDataAccessRepository.findByNameAndSurname(name, surname).get().getProfession().getProfession();
     }
 
-    /*public int addPerson(Person person) {
-        return personDao.addPerson(person);
+    public Person addPerson(Person person) {
+        Integer id = person.getProfession().getId();
+        Profession profession = professionDataAccessRepository.findById(id).orElse(null);
+        person.setProfession(profession);
+        return personDataAccessRepository.save(person);
     }
 
-    public int  deletePerson(UUID id) {
+    /*public Profession addProfession(Profession profession) {
+        return personDataAccessRepository.save(profession);
+    }
+*/
+    /*public int  deletePerson(UUID id) {
         return personDao.deletePersonById(id);
     }
 
