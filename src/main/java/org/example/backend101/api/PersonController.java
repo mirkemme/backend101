@@ -1,8 +1,10 @@
 package org.example.backend101.api;
 
+import jakarta.validation.Valid;
 import org.example.backend101.model.Person;
 import org.example.backend101.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,9 +45,14 @@ public class PersonController {
         return personService.getProfessionByNameAndSurname(name, surname);
     }
 
-    /*@PostMapping
-    public void addPerson(@Valid @NonNull @RequestBody Person person) {
-        personService.addPerson(person);
+    @PostMapping(value = "/new-person", consumes = "application/json", produces = "application/json")
+    public Person addPerson(@Valid @NonNull @RequestBody Person person) {
+        return personService.addPerson(person);
+    }
+
+    /*@PostMapping(value = "/new-profession", consumes = "application/json", produces = "application/json")
+    public Profession addProfession(@Valid @NonNull @RequestBody Profession profession) {
+        return personService.addProfession(profession);
     }
 
     @DeleteMapping(path = "{id}")
