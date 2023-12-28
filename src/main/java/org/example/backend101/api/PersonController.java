@@ -50,12 +50,7 @@ public class PersonController {
         return personService.addPerson(person);
     }
 
-    /*@PostMapping(value = "/new-profession", consumes = "application/json", produces = "application/json")
-    public Profession addProfession(@Valid @NonNull @RequestBody Profession profession) {
-        return personService.addProfession(profession);
-    }
-
-    @DeleteMapping(path = "{id}")
+    /*@DeleteMapping(path = "{id}")
     public void deletePersonById(@PathVariable("id") UUID id){
         personService.deletePerson(id);
     }
