@@ -19,4 +19,16 @@ public class ProfessionService {
     public Profession getProfessionById(Integer id) {
         return professionDataAccessRepository.findById(id).orElse(null);
     }
+
+    public Profession addProfession(Profession profession) {
+        return professionDataAccessRepository.save(profession);
+    }
+
+    public int deleteProfessionById(Integer id) {
+        return professionDataAccessRepository.deleteProfessionById(id);
+    }
+
+    public int updateProfession(Integer id, Profession newProfession) {
+        return professionDataAccessRepository.updateProfessionById(id, newProfession);
+    }
 }
