@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@Service("person-service")
 public class PersonService {
     private final PersonDataAccessRepository personDataAccessRepository;
     private final ProfessionDataAccessRepository professionDataAccessRepository;
 
     @Autowired
-    public PersonService(@Qualifier(value = "mysql-person")
+    public PersonService(@Qualifier("mysql-person")
                          PersonDataAccessRepository personDataAccessRepository,
-                         @Qualifier(value = "mysql-profession")
+                         @Qualifier("mysql-profession")
                          ProfessionDataAccessRepository professionDataAccessRepository) {
         this.personDataAccessRepository = personDataAccessRepository;
         this.professionDataAccessRepository = professionDataAccessRepository;
@@ -52,10 +52,6 @@ public class PersonService {
         return personDataAccessRepository.save(person);
     }
 
-    /*public Profession addProfession(Profession profession) {
-        return personDataAccessRepository.save(profession);
-    }
-*/
     /*public int  deletePerson(UUID id) {
         return personDao.deletePersonById(id);
     }

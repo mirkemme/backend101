@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.example.backend101.model.Profession;
 import org.example.backend101.service.ProfessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +14,13 @@ public class ProfessionController {
     private final ProfessionService professionService;
 
     @Autowired
-    public ProfessionController(ProfessionService professionService) {
+    public ProfessionController(@Qualifier("profession-service") ProfessionService professionService) {
         this.professionService = professionService;
+    }
+
+    @GetMapping(path = "{id}")
+    public @ResponseBody Profession getProfessionById(@PathVariable("id") Integer id) {
+        return professionService.getProfessionById(id);
     }
 
     @PostMapping(value = "/new-profession", consumes = "application/json", produces = "application/json")

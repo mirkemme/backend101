@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.example.backend101.model.Person;
 import org.example.backend101.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class PersonController {
     private final PersonService personService;
 
     @Autowired
-    public PersonController(PersonService personService) {
+    public PersonController(@Qualifier("person-service") PersonService personService) {
         this.personService = personService;
     }
 
