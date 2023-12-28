@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 @Service("person-service")
@@ -52,11 +53,15 @@ public class PersonService {
         return personDataAccessRepository.save(person);
     }
 
-    /*public int  deletePerson(UUID id) {
-        return personDao.deletePersonById(id);
+    /**/
+    public String getNamesByChar(Character character) {
+        List<Person> people = personDataAccessRepository.findByNameStartingWith(character);
+        StringJoiner stringJoiner = new StringJoiner(", ");
+        if (!people.isEmpty())
+            for(Person person : people) {
+                stringJoiner.add(person.getName());
+            }
+        String allNames = stringJoiner.toString();
+        return allNames;
     }
-
-    public int updatePerson(UUID id, Person newPerson) {
-        return personDao.updatePersonById(id, newPerson);
-    }*/
 }

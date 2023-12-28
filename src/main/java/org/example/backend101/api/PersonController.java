@@ -51,6 +51,11 @@ public class PersonController {
         return personService.addPerson(person);
     }
 
+    @GetMapping("/search/char")
+    public String getNamesByChar(@RequestParam Character character) {
+        return personService.getNamesByChar(character);
+    }
+
     /*@DeleteMapping(path = "{id}")
     public void deletePersonById(@PathVariable("id") UUID id){
         personService.deletePerson(id);
