@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository(value = "mysql-person")
+@Repository("mysql-person")
 public interface PersonDataAccessRepository extends JpaRepository<Person, UUID> {
     public Optional<Person> findByName(String name);
     public Optional<Person> findByNameAndSurname(String name, String surname);

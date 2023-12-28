@@ -6,7 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository("mysql-profession")
 public interface ProfessionDataAccessRepository extends JpaRepository<Profession, Integer> {
-    int deleteProfessionById(Integer id);
-    int updateProfessionById(Integer id, Profession newProfession);
-
 }

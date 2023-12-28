@@ -18,7 +18,7 @@ public class Profession {
     private final Integer id;
     @Column (name = "profession")
     @NotBlank
-    private final String profession;
+    private String profession;
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "profession")
     private List<Person> people;
@@ -44,5 +44,9 @@ public class Profession {
 
     public List<Person> getPeople() {
         return people;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
     }
 }
