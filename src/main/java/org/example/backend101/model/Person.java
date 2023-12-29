@@ -16,10 +16,10 @@ public class Person {
     @Column (name = "id", columnDefinition = "BINARY(16)")
     private final UUID id;
     @Column (name = "name")
-    @NotBlank
+    @NotBlank(message = "Name is mandatory")
     private final String name;
     @Column (name = "surname")
-    @NotBlank
+    @NotBlank(message = "Surname is mandatory")
     private final String surname;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profession_id")

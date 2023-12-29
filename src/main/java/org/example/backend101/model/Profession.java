@@ -17,7 +17,7 @@ public class Profession {
     @Column (name = "id")
     private final Integer id;
     @Column (name = "profession")
-    @NotBlank
+    @NotBlank(message = "Profession is mandatory")
     private String profession;
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "profession")
