@@ -4,6 +4,7 @@ import org.example.backend101.dao.PersonDataAccessRepository;
 import org.example.backend101.dao.ProfessionDataAccessRepository;
 import org.example.backend101.model.Person;
 import org.example.backend101.model.Profession;
+import org.example.backend101.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -55,13 +56,19 @@ public class PersonService {
 
     /**/
     public String getNamesByChar(Character character) {
-        List<Person> people = personDataAccessRepository.findByNameStartingWith(character);
-        StringJoiner stringJoiner = new StringJoiner(", ");
-        if (!people.isEmpty())
-            for(Person person : people) {
-                stringJoiner.add(person.getName());
-            }
-        String allNames = stringJoiner.toString();
-        return allNames;
+        if (StringUtils.isAlphanumeric(character)) {
+            List<Person> people = personDataAccessRepository.findByNameStartingWith(character);
+            StringJoiner stringJoiner = new StringJoiner(", ");
+            if (!people.isEmpty())
+                for(Person person : people) {
+                    stringJoiner.add(person.getName());
+                }
+            else
+                return "Resource not found";
+            String allNames = stringJoiner.toString();
+
+            return allNames;
+        } else
+            return "Invalid input";
     }
 }
