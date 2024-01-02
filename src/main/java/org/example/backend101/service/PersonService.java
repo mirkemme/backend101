@@ -1,5 +1,7 @@
 package org.example.backend101.service;
 
+import org.example.backend101.api.BadRequestException;
+import org.example.backend101.api.NoContentException;
 import org.example.backend101.dao.PersonDataAccessRepository;
 import org.example.backend101.dao.ProfessionDataAccessRepository;
 import org.example.backend101.model.Person;
@@ -7,7 +9,9 @@ import org.example.backend101.model.Profession;
 import org.example.backend101.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,20 +59,47 @@ public class PersonService {
     }
 
     /**/
-    public String getNamesByChar(Character character) {
-        if (StringUtils.isAlphanumeric(character)) {
-            List<Person> people = personDataAccessRepository.findByNameStartingWith(character);
-            StringJoiner stringJoiner = new StringJoiner(", ");
-            if (!people.isEmpty())
-                for(Person person : people) {
-                    stringJoiner.add(person.getName());
-                }
-            else
-                return "Resource not found";
-            String allNames = stringJoiner.toString();
+    /*public String getNamesByChar(Character character) {
+            if (StringUtils.isAlphanumeric(character)) {
+                List<Person> people = personDataAccessRepository.findByNameStartingWith(character);
+                StringJoiner stringJoiner = new StringJoiner(", ");
+                if (!people.isEmpty())
+                    for (Person person : people) {
+                        stringJoiner.add(person.getName());
+                    }
+                else
+                    return "Resource not found";
+                String allNames = stringJoiner.toString();
 
-            return allNames;
-        } else
-            return "Invalid input";
+                return allNames;
+            } else
+                return "Invalid input";
+    }*/
+    public String getNamesByChar(Character character) {
+        try {
+            if (StringUtils.isAlphanumeric(character)) {
+                List<Person> people = personDataAccessRepository.findByNameStartingWith(character);
+                StringJoiner stringJoiner = new StringJoiner(", ");
+                if (!people.isEmpty())
+                    for (Person person : people) {
+                        stringJoiner.add(person.getName());
+                    }
+                else
+                    throw new NoContentException();
+                String allNames = stringJoiner.toString();
+
+                return allNames;
+            } else
+                throw new BadRequestException();
+        }
+        catch (NoContentException exception) {
+            throw new ResponseStatusException(
+                    HttpStatus.NO_CONTENT, "No content", exception);
+        }
+        catch (BadRequestException exception) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Invalid input", exception);
+        }
     }
+
 }
