@@ -1,6 +1,8 @@
 package org.example.backend101.api;
 
 import jakarta.validation.Valid;
+import org.example.backend101.exception.BadRequestException;
+import org.example.backend101.exception.NoContentException;
 import org.example.backend101.model.Person;
 import org.example.backend101.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +54,7 @@ public class PersonController {
     }
 
     @GetMapping("/search/char")
-    public String getNamesByChar(@RequestParam Character character) {
+    public String getNamesByChar(@RequestParam Character character) throws BadRequestException, NoContentException {
         return personService.getNamesByChar(character);
     }
 
