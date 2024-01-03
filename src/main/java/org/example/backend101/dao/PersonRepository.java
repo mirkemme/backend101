@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository("mysql-person")
-public interface PersonDataAccessRepository extends JpaRepository<Person, UUID> {
-    public Optional<Person> findByName(String name);
-    public Optional<Person> findByNameAndSurname(String name, String surname);
-    public List<Person> findByNameStartingWith(Character character);
+public interface PersonRepository extends JpaRepository<Person, UUID> {
+    Optional<Person> findByName(String name);
+    Optional<Person> findByNameAndSurname(String name, String surname);
+    List<Person> findByNameStartingWith(Character character);
 }

@@ -1,9 +1,9 @@
 package org.example.backend101.service;
 
-import org.example.backend101.exception.BadRequestException;
+import org.example.backend101.exception.InvalidInputException;
 import org.example.backend101.exception.NoContentException;
-import org.example.backend101.dao.PersonDataAccessRepository;
-import org.example.backend101.dao.ProfessionDataAccessRepository;
+import org.example.backend101.dao.PersonRepository;
+import org.example.backend101.dao.ProfessionRepository;
 import org.example.backend101.model.Person;
 import org.example.backend101.model.Profession;
 import org.example.backend101.utils.StringUtils;
@@ -18,42 +18,42 @@ import java.util.UUID;
 
 @Service("person-service")
 public class PersonService {
-    private final PersonDataAccessRepository personDataAccessRepository;
-    private final ProfessionDataAccessRepository professionDataAccessRepository;
+    private final PersonRepository personRepository;
+    private final ProfessionRepository professionRepository;
 
     @Autowired
     public PersonService(@Qualifier("mysql-person")
-                         PersonDataAccessRepository personDataAccessRepository,
+                             PersonRepository personRepository,
                          @Qualifier("mysql-profession")
-                         ProfessionDataAccessRepository professionDataAccessRepository) {
-        this.personDataAccessRepository = personDataAccessRepository;
-        this.professionDataAccessRepository = professionDataAccessRepository;
+                         ProfessionRepository professionRepository) {
+        this.personRepository = personRepository;
+        this.professionRepository = professionRepository;
     }
 
     public List<Person> getAllPeople() {
-        return personDataAccessRepository.findAll();
+        return personRepository.findAll();
     }
 
     public Person getPersonById(UUID id) {
-        return personDataAccessRepository.findById(id).orElse(null);
+        return personRepository.findById(id).orElse(null);
     }
 
     public Optional<Person> getPersonByName(String name) {
-        return personDataAccessRepository.findByName(name);
+        return personRepository.findByName(name);
     }
     public Optional<Person> getPersonByNameAndSurname(String name, String surname) {
-        return personDataAccessRepository.findByNameAndSurname(name, surname);
+        return personRepository.findByNameAndSurname(name, surname);
     }
 
     public String getProfessionByNameAndSurname(String name, String surname) {
-        return personDataAccessRepository.findByNameAndSurname(name, surname).get().getProfession().getProfession();
+        return personRepository.findByNameAndSurname(name, surname).get().getProfession().getProfession();
     }
 
     public Person addPerson(Person person) {
         Integer id = person.getProfession().getId();
-        Profession profession = professionDataAccessRepository.findById(id).orElse(null);
+        Profession profession = professionRepository.findById(id).orElse(null);
         person.setProfession(profession);
-        return personDataAccessRepository.save(person);
+        return personRepository.save(person);
     }
 
     /**/
@@ -73,9 +73,9 @@ public class PersonService {
             } else
                 return "Invalid input";
     }*/
-    public String getNamesByChar(Character character) throws NoContentException, BadRequestException {
+    public String getNamesByChar(Character character) {
             if (StringUtils.isAlphanumeric(character)) {
-                List<Person> people = personDataAccessRepository.findByNameStartingWith(character);
+                List<Person> people = personRepository.findByNameStartingWith(character);
                 StringJoiner stringJoiner = new StringJoiner(", ");
                 if (!people.isEmpty())
                     for (Person person : people) {
@@ -85,6 +85,6 @@ public class PersonService {
                 String allNames = stringJoiner.toString();
 
                 return allNames;
-            } else throw new BadRequestException("Invalid input");
+            } else throw new InvalidInputException("Invalid input");
         }
 }

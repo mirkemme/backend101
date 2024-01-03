@@ -26,9 +26,9 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 new HttpHeaders(), HttpStatus.NO_CONTENT, request);
     }
 
-    @ExceptionHandler(value = { BadRequestException.class })
+    @ExceptionHandler(value = { InvalidInputException.class })
     protected ResponseEntity<Object> handleBadRequestException(
-            BadRequestException exception, WebRequest request) {
+            InvalidInputException exception, WebRequest request) {
         ErrorMessage bodyOfResponse = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),

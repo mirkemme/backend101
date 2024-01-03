@@ -1,7 +1,7 @@
 package org.example.backend101.api;
 
 import jakarta.validation.Valid;
-import org.example.backend101.exception.BadRequestException;
+import org.example.backend101.exception.InvalidInputException;
 import org.example.backend101.exception.NoContentException;
 import org.example.backend101.model.Person;
 import org.example.backend101.service.PersonService;
@@ -54,7 +54,7 @@ public class PersonController {
     }
 
     @GetMapping("/search/char")
-    public String getNamesByChar(@RequestParam Character character) throws BadRequestException, NoContentException {
+    public String getNamesByChar(@RequestParam Character character) throws InvalidInputException, NoContentException {
         return personService.getNamesByChar(character);
     }
 
